@@ -8,7 +8,7 @@ DA GAMEZ:
 3. Love Wordle — guess a custom word, 2 hints allowed
 4. Scrambled Secret — unscramble a custom word, 3 hints
 5. Rock Paper Scissors Hearts — best of 3 vs an AI
-6. Emoji Riddle Garden — guess the phrase from emoji clues
+6. Guess Word By Emojis — guess the phrase from emoji clues
 7. Memory Bouquet — memorize and repeat a flower sequence
 8. Two Truths and a Lie — spot the lie
 9. Wilting Rose Hangman — classic hangman, but the rose wilts instead of a stick figure
