@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>🎀 Ten Hearts to Unlock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-top:#fff0f5;
+    --bg-bot:#ffe1ec;
+    --card:#fffbfd;
+    --pink-deep:#c65a82;
+    --pink-mid:#eb9cbb;
+    --pink-pale:#ffd9e8;
+    --plum:#5c3a4e;
+    --plum-soft:#8a6d7c;
+    --gold:#d9b76a;
+    --green-ok:#7fbf9e;
+    --red-no:#e08a9b;
+    --shadow: 0 10px 30px rgba(198,90,130,0.18);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background: radial-gradient(circle at 50% 0%, var(--bg-top), var(--bg-bot) 70%);
+    font-family:'Quicksand', sans-serif;
+    color:var(--plum);
+    display:flex;
+    justify-content:center;
+    padding: 18px 12px 60px;
+  }
+  #app{
+    width:100%;
+    max-width:460px;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0 0 4px;
+  }
+  .title{
+    text-align:center;
+    font-size:1.6rem;
+    color:var(--pink-deep);
+    letter-spacing:0.5px;
+    margin-bottom:2px;
+  }
+  .subtitle{
+    text-align:center;
+    font-size:0.85rem;
+    color:var(--plum-soft);
+    margin-bottom:18px;
+  }
+
+  /* ---- bracelet progress ---- */
+  .bracelet-wrap{
+    background:var(--card);
+    border-radius:18px;
+    padding:14px 10px 10px;
+    box-shadow:var(--shadow);
+    margin-bottom:18px;
+  }
+  .bracelet{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:relative;
+  }
+  .bracelet::before{
+    content:"";
+    position:absolute;
+    top:50%; left:6px; right:6px;
+    height:2px;
+    background:var(--pink-pale);
+    transform:translateY(-1px);
+    z-index:0;
+  }
+  .charm{
+    position:relative;
+    z-index:1;
+    width:28px; height:28px;
+    border-radius:50%;
+    background:var(--bg-bot);
+    border:2px solid var(--pink-pale);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.85rem;
+    transition:all .4s ease;
+  }
+  .charm.filled{
+    background: linear-gradient(135deg, var(--pink-mid), var(--gold));
+    border-color:var(--pink-deep);
+    transform:scale(1.12);
+    box-shadow:0 2px 8px rgba(198,90,130,0.4);
+  }
+  .charm.filled::after{ content:"🎀"; }
+  .charm.unraveling{ animation: shake 0.5s ease; }
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-3px) rotate(-8deg);}
+    75%{transform:translateX(3px) rotate(8deg);}
+  }
+  .bracelet-label{
+    text-align:center;
+    font-size:0.75rem;
+    color:var(--plum-soft);
+    margin-top:8px;
+  }
+
+  /* ---- card ---- */
+  .card{
+    background:var(--card);
+    border-radius:20px;
+    padding:22px 20px 24px;
+    box-shadow:var(--shadow);
+    min-height:300px;
+  }
+  .game-heading{
+    font-size:1.15rem;
+    color:var(--pink-deep);
+    text-align:center;
+    margin-bottom:14px;
+  }
+  .game-heading .eyebrow{
+    display:block;
+    font-family:'Quicksand', sans-serif;
+    font-size:0.7rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--plum-soft);
+    margin-bottom:2px;
+  }
+  p.instructions{
+    font-size:0.9rem;
+    color:var(--plum-soft);
+    text-align:center;
+    margin:0 0 18px;
+    line-height:1.4;
+  }
+
+  /* ---- buttons & inputs ---- */
+  button{
+    font-family:'Quicksand', sans-serif;
+    font-weight:600;
+    cursor:pointer;
+    border:none;
+    border-radius:14px;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  button:active{ transform:scale(0.96); }
+  .btn-primary{
+    width:100%;
+    padding:13px;
+    background: linear-gradient(135deg, var(--pink-mid), var(--pink-deep));
+    color:#fff;
+    font-size:1rem;
+    box-shadow:0 4px 12px rgba(198,90,130,0.35);
+    margin-top:10px;
+  }
+  .btn-secondary{
+    padding:10px 14px;
+    background:var(--pink-pale);
+    color:var(--pink-deep);
+    font-size:0.85rem;
+    margin-top:8px;
+  }
+  .btn-row{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+  .option-btn{
+    width:100%;
+    text-align:left;
+    padding:12px 14px;
+    background:#fff;
+    border:2px solid var(--pink-pale);
+    color:var(--plum);
+    font-size:0.95rem;
+    margin-bottom:8px;
+  }
+  .option-btn:hover{ border-color:var(--pink-mid); }
+  .option-btn.correct{ background:var(--green-ok); border-color:var(--green-ok); color:#fff; }
+  .option-btn.wrong{ background:var(--red-no); border-color:var(--red-no); color:#fff; }
+  .option-btn:disabled{ opacity:0.7; }
+
+  input[type=text], input[type=number]{
+    width:100%;
+    padding:12px 14px;
+    border-radius:14px;
+    border:2px solid var(--pink-pale);
+    font-family:'Quicksand', sans-serif;
+    font-size:1rem;
+    text-align:center;
+    color:var(--plum);
+    outline:none;
+  }
+  input:focus{ border-color:var(--pink-mid); }
+
+  .feedback{
+    text-align:center;
+    min-height:22px;
+    font-size:0.9rem;
+    margin-top:10px;
+    font-weight:600;
+  }
+  .feedback.good{ color:var(--green-ok); }
+  .feedback.bad{ color:var(--red-no); }
+  .feedback.hint{ color:var(--pink-deep); }
+
+  /* ---- tic tac toe ---- */
+  .ttt-board{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    max-width:230px;
+    margin:0 auto 10px;
+  }
+  .ttt-cell{
+    aspect-ratio:1;
+    background:#fff;
+    border:2px solid var(--pink-pale);
+    border-radius:12px;
+    font-size:1.6rem;
+    font-family:'Fraunces', serif;
+    color:var(--pink-deep);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ttt-round-label{ text-align:center; font-size:0.85rem; color:var(--plum-soft); margin-bottom:6px; }
+
+  /* ---- wordle ---- */
+  .tile-row{ display:flex; justify-content:center; gap:6px; margin-bottom:6px; flex-wrap:wrap; }
+  .tile{
+    width:34px; height:34px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:8px;
+    font-weight:700;
+    font-size:1rem;
+    color:#fff;
+    background:#ccb7c0;
+  }
+  .tile.g{ background:var(--green-ok); }
+  .tile.y{ background:var(--gold); }
+  .tile.gray{ background:#c9bcc3; }
+
+  /* ---- hangman ---- */
+  .rose-display{ text-align:center; font-size:2.4rem; margin-bottom:6px; }
+  .rose-stage-label{ text-align:center; font-size:0.8rem; color:var(--plum-soft); margin-bottom:10px; }
+  .word-display{
+    text-align:center;
+    font-family:'Fraunces', serif;
+    font-size:1.4rem;
+    letter-spacing:6px;
+    color:var(--pink-deep);
+    margin-bottom:14px;
+  }
+  .keyboard{ display:flex; flex-wrap:wrap; gap:5px; justify-content:center; }
+  .key{
+    width:30px; height:36px;
+    background:#fff;
+    border:2px solid var(--pink-pale);
+    border-radius:8px;
+    font-size:0.85rem;
+    color:var(--plum);
+  }
+  .key:disabled{ opacity:0.3; }
+  .key.used-good{ background:var(--green-ok); color:#fff; border-color:var(--green-ok); }
+  .key.used-bad{ background:var(--red-no); color:#fff; border-color:var(--red-no); }
+
+  /* ---- memory ---- */
+  .flower-row{ display:flex; justify-content:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+  .flower-btn{
+    padding:14px 16px;
+    background:#fff;
+    border:2px solid var(--pink-pale);
+    border-radius:14px;
+    font-size:1.6rem;
+  }
+  .trail{
+    text-align:center;
+    min-height:34px;
+    font-size:1.4rem;
+    margin-bottom:10px;
+    letter-spacing:6px;
+  }
+
+  /* ---- finale / reset overlays ---- */
+  .overlay-text{ text-align:center; }
+  .overlay-emoji{ font-size:2.4rem; margin-bottom:10px; }
+  .phone-number{
+    font-family:'Fraunces', serif;
+    font-size:1.6rem;
+    color:var(--pink-deep);
+    background:var(--pink-pale);
+    border-radius:14px;
+    padding:14px;
+    margin:16px 0;
+    letter-spacing:1px;
+  }
+  .final-msg{ font-size:0.95rem; color:var(--plum-soft); line-height:1.5; }
+
+  footer{
+    text-align:center;
+    font-size:0.72rem;
+    color:var(--plum-soft);
+    margin-top:16px;
+    opacity:0.8;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="title">🎀 Ten Hearts to Unlock 🎀</div>
+  <div class="subtitle">win 10 tiny games in a row for a little surprise</div>
+
+  <div class="bracelet-wrap">
+    <div class="bracelet" id="bracelet"></div>
+    <div class="bracelet-label" id="braceletLabel">0 of 10 hearts earned</div>
+  </div>
+
+  <div class="card">
+    <div id="gameArea"></div>
+  </div>
+
+  <footer>lose a round and the bracelet unravels back to game one 🩷</footer>
+</div>
+
+<script>
+/* ============================================================
+   🎀 CONFIG — edit these to make it yours 🎀
+   ============================================================ */
+const CONFIG = {
+  secretNumber: 10,
+  wordleWord: "TULIPS",
+  scrambleWord: "SHADOW",
+  scrambleHints: [
+    "there are games, shows, fanart, and movies",
+    "red is associated with this character",
+    "keanu reeves played him"
+  ],
+  hangmanWord: "PIPLUP",
+  riddles: [
+    { emoji: "💜🔮✨", answer: "twilight sparkle", hint: "magical princess who loves books" },
+    { emoji: "🐶😎🐤", answer: "snoopy", hint: "its official name is something people are allergic to" },
+    { emoji: "🐾🐟🥛", answer: "gato", hint: "the spanish term for this" }
+  ],
+  memorySequence: ["rose", "tulip", "daisy", "lily"],
+  twoTruths: [
+    "i love drawing",
+    "i have always liked ice cream",
+    "i have cats"
+  ],
+  lieIndex: 2, // 1-indexed
+  trivia: [
+    { question: "who is my favorite sonic character?", options: { A: "Sonic", B: "Shadow", C: "Silver" }, answer: "B" },
+    { question: "What hello kitty character do i love?", options: { A: "hello kitty", B: "my melody", C: "cinnamonroll" }, answer: "C" },
+    { question: "what MLP character is my favorite?", options: { A: "pinkie pie", B: "twilight sparkle", C: "applejack" }, answer: "B" }
+  ],
+  phoneNumber: "(469) 515-3557",
+  finalMessage: "Hooray! You passed! Text me! But also do tell me about the game lol 🩷"
+};
+
+/* ============================================================
+   🎀 shared helpers 🎀
+   ============================================================ */
+const FLOWER_EMOJI = { rose: "🌹", tulip: "🌷", daisy: "🌼", lily: "🌸" };
+const ROSE_STAGES = [
+  { emoji: "🌹", label: "full bloom" },
+  { emoji: "🌹", label: "still lovely" },
+  { emoji: "🥀", label: "petals drooping" },
+  { emoji: "🥀", label: "wilting..." },
+  { emoji: "🥀", label: "almost gone..." },
+  { emoji: "🥀💔", label: "wilted completely" }
+];
+
+function shuffle(word){
+  let letters, result;
+  do{
+    letters = word.split("");
+    for(let i = letters.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [letters[i], letters[j]] = [letters[j], letters[i]];
+    }
+    result = letters.join("");
+  } while(result === word);
+  return result;
+}
+
+function el(html){
+  const div = document.createElement("div");
+  div.innerHTML = html.trim();
+  return div.firstElementChild;
+}
+
+/* ============================================================
+   🎀 GAME 1 — Tic Tac Toe Showdown 🎀
+   ============================================================ */
+function checkWinner(b){
+  const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(const [x,y,z] of lines){
+    if(b[x] && b[x] === b[y] && b[y] === b[z]) return b[x];
+  }
+  if(b.every(c => c !== "")) return "draw";
+  return null;
+}
+
+function aiMove(b){
+  const empties = b.map((v,i)=>v===""?i:null).filter(v=>v!==null);
+  for(const i of empties){
+    const b2 = b.slice(); b2[i] = "O";
+    if(checkWinner(b2) === "O") return i;
+  }
+  for(const i of empties){
+    const b2 = b.slice(); b2[i] = "X";
+    if(checkWinner(b2) === "X") return i;
+  }
+  return empties[Math.floor(Math.random()*empties.length)];
+}
+
+function gameTicTacToe(container, onResult){
+  let round = 1, wins = 0;
+
+  function playRound(){
+    let board = Array(9).fill("");
+    let locked = false;
+
+    container.innerHTML = "";
+    container.appendChild(el(`
+      <div>
+        <div class="game-heading"><span class="eyebrow">Game 1 of 10</span>Tic Tac Toe Showdown</div>
+        <p class="instructions">Best 2 of 3 rounds vs the AI. You're X 🩷, AI is O.</p>
+        <div class="ttt-round-label">Round ${round} of 3 &nbsp;·&nbsp; wins so far: ${wins}</div>
+        <div class="ttt-board" id="tttBoard"></div>
+        <div class="feedback" id="tttFeedback"></div>
+      </div>
+    `));
+
+    const boardEl = container.querySelector("#tttBoard");
+    const feedback = container.querySelector("#tttFeedback");
+
+    function render(){
+      boardEl.innerHTML = "";
+      board.forEach((v,i)=>{
+        const cell = el(`<button class="ttt-cell">${v}</button>`);
+        cell.disabled = v !== "" || locked;
+        cell.addEventListener("click", ()=> handleMove(i));
+        boardEl.appendChild(cell);
+      });
+    }
+
+    function handleMove(i){
+      if(board[i] !== "" || locked) return;
+      board[i] = "X";
+      render();
+      let result = checkWinner(board);
+      if(result){ finishRound(result); return; }
+      const aiI = aiMove(board);
+      board[aiI] = "O";
+      render();
+      result = checkWinner(board);
+      if(result){ finishRound(result); }
+    }
+
+    function finishRound(result){
+      locked = true;
+      render();
+      if(result === "X"){
+        wins++;
+        feedback.textContent = `You won round ${round}! 🎉`;
+        feedback.className = "feedback good";
+      } else if(result === "O"){
+        feedback.textContent = `AI won round ${round}. 😳`;
+        feedback.className = "feedback bad";
+      } else {
+        feedback.textContent = `Round ${round} was a draw!`;
+        feedback.className = "feedback hint";
+      }
+      setTimeout(()=>{
+        if(round >= 3){
+          onResult(wins >= 2);
+        } else {
+          round++;
+          playRound();
+        }
+      }, 1300);
+    }
+
+    render();
+  }
+
+  playRound();
+}
+
+/* ============================================================
+   🎀 GAME 2 — Guess My Number 🎀
+   ============================================================ */
+function gameGuessNumber(container, onResult){
+  let attempts = 0;
+  const maxAttempts = 3;
+
+  container.innerHTML = "";
+  container.appendChild(el(`
+    <div>
+      <div class="game-heading"><span class="eyebrow">Game 2 of 10</span>Guess My Number</div>
+      <p class="instructions">I'm thinking of a number from 1 to 10. You have 3 guesses!</p>
+      <input type="number" id="numInput" min="1" max="10" placeholder="your guess">
+      <button class="btn-primary" id="numSubmit">Guess</button>
+      <div class="feedback" id="numFeedback"></div>
+    </div>
+  `));
+
+  const input = container.querySelector("#numInput");
+  const feedback = container.querySelector("#numFeedback");
+
+  container.querySelector("#numSubmit").addEventListener("click", ()=>{
+    const val = parseInt(input.value, 10);
+    if(isNaN(val)){ feedback.textContent = "Numbers only please!"; feedback.className="feedback bad"; return; }
+    attempts++;
+    if(val === CONFIG.secretNumber){
+      feedback.textContent = "Yes!! That's it! 🎉";
+      feedback.className = "feedback good";
+      setTimeout(()=> onResult(true), 900);
+      return;
+    }
+    if(attempts >= maxAttempts){
+      feedback.innerHTML = `Out of guesses! It was <b>${CONFIG.secretNumber}</b>.`;
+      feedback.className = "feedback bad";
+      setTimeout(()=> onResult(false), 1400);
+      return;
+    }
+    feedback.textContent = val < CONFIG.secretNumber ? "Higher! 📈" : "Lower! 📉";
+    feedback.className = "feedback hint";
+    input.value = "";
+  });
+}
+
+/* ============================================================
+   🎀 GAME 3 — Love Wordle 🎀
+   ============================================================ */
+function gameWordle(container, onResult){
+  const word = CONFIG.wordleWord.toUpperCase();
+  const maxGuesses = word.length + 2;
+  let hintsLeft = 2;
+  let guessesUsed = 0;
+  const revealed = Array(word.length).fill(null);
+
+  container.innerHTML = "";
+  container.appendChild(el(`
+    <div>
+      <div class="game-heading"><span class="eyebrow">Game 3 of 10</span>Love Wordle</div>
+      <p class="instructions">Guess the ${word.length}-letter word in ${maxGuesses} tries. You get 2 hints.</p>
+      <div id="wordleHistory"></div>
+      <input type="text" id="wordleInput" maxlength="${word.length}" placeholder="type your guess" style="text-transform:uppercase">
+      <div class="btn-row">
+        <button class="btn-primary" id="wordleSubmit" style="flex:2;">Guess</button>
+        <button class="btn-secondary" id="wordleHint" style="flex:1;">Hint (${hintsLeft})</button>
+      </div>
+      <div class="feedback" id="wordleFeedback"></div>
+    </div>
+  `));
+
+  const history = container.querySelector("#wordleHistory");
+  const input = container.querySelector("#wordleInput");
+  const feedback = container.querySelector("#wordleFeedback");
+  const hintBtn = container.querySelector("#wordleHint");
+
+  hintBtn.addEventListener("click", ()=>{
+    if(hintsLeft <= 0) return;
+    const unrevealed = revealed.map((v,i)=>v===null?i:null).filter(v=>v!==null);
+    if(unrevealed.length){
+      const i = unrevealed[Math.floor(Math.random()*unrevealed.length)];
+      revealed[i] = word[i];
+      hintsLeft--;
+      hintBtn.textContent = `Hint (${hintsLeft})`;
+      if(hintsLeft <= 0) hintBtn.disabled = true;
+      feedback.textContent = "Hint: " + revealed.map(c => c || "_").join(" ");
+      feedback.className = "feedback hint";
+    }
+  });
+
+  container.querySelector("#wordleSubmit").addEventListener("click", ()=>{
+    const guess = input.value.trim().toUpperCase();
+    if(guess.length !== word.length){
+      feedback.textContent = `Word must be ${word.length} letters!`;
+      feedback.className = "feedback bad";
+      return;
+    }
+    guessesUsed++;
+    const row = el(`<div class="tile-row"></div>`);
+    for(let i=0;i<guess.length;i++){
+      let cls = "gray";
+      if(guess[i] === word[i]) cls = "g";
+      else if(word.includes(guess[i])) cls = "y";
+      row.appendChild(el(`<div class="tile ${cls}">${guess[i]}</div>`));
+    }
+    history.appendChild(row);
+    input.value = "";
+
+    if(guess === word){
+      feedback.textContent = "That's the word! 🎉";
+      feedback.className = "feedback good";
+      setTimeout(()=> onResult(true), 900);
+      return;
+    }
+    if(guessesUsed >= maxGuesses){
+      feedback.innerHTML = `Out of guesses! It was <b>${word}</b>.`;
+      feedback.className = "feedback bad";
+      setTimeout(()=> onResult(false), 1400);
+    }
+  });
+}
+
+/* ============================================================
+   🎀 GAME 4 — Scrambled Secret 🎀
+   ============================================================ */
+function gameScramble(container, onResult){
+  const word = CONFIG.scrambleWord.toUpperCase();
+  const scrambled = shuffle(word);
+  let attempts = 0;
+  const maxAttempts = 5;
+  let hintsUsed = 0;
+
+  container.innerHTML = "";
+  container.appendChild(el(`
+    <div>
+      <div class="game-heading"><span class="eyebrow">Game 4 of 10</span>Scrambled Secret</div>
+      <p class="instructions">Unscramble the word below. 5 guesses, ${CONFIG.scrambleHints.length} hints.</p>
+      <div class="word-display">${scrambled}</div>
+      <input type="text" id="scrambleInput" placeholder="your guess" style="text-transform:uppercase">
+      <div class="btn-row">
+        <button class="btn-primary" id="scrambleSubmit" style="flex:2;">Guess</button>
+        <button class="btn-secondary" id="scrambleHint" style="flex:1;">Hint</button>
+      </div>
+      <div class="feedback" id="scrambleFeedback"></div>
+    </div>
+  `));
+
+  const input = container.querySelector("#scrambleInput");
+  const feedback = container.querySelector("#scrambleFeedback");
+  const hintBtn = container.querySelector("#scrambleHint");
+
+  hintBtn.addEventListener("click", ()=>{
+    if(hintsUsed >= CONFIG.scrambleHints.length){
+      feedback.textContent = "No more hints, love!";
+      feedback.className = "feedback bad";
+      return;
+    }
+    feedback.textContent = "Hint: " + CONFIG.scrambleHints[hintsUsed];
+    feedback.className = "feedback hint";
+    hintsUsed++;
+    if(hintsUsed >= CONFIG.scrambleHints.length) hintBtn.disabled = true;
+  });
+
+  container.querySelector("#scrambleSubmit").addEventListener("click", ()=>{
+    const guess = input.value.trim().toUpperCase();
+    attempts++;
+    if(guess === word){
+      feedback.textContent = "That's it! 🎉";
+      feedback.className = "feedback good";
+      setTimeout(()=> onResult(true), 900);
+      return;
+    }
+    if(attempts >= maxAttempts){
+      feedback.innerHTML = `Out of guesses! It was <b>${word}</b>.`;
+      feedback.className = "feedback bad";
+      setTimeout(()=> onResult(false), 1400);
+      return;
+    }
+    feedback.textContent = "Nope, try again!";
+    feedback.className = "feedback bad";
+    input.value = "";
+  });
+}
+
+/* ============================================================
+   🎀 GAME 5 — Rock Paper Scissors Hearts 🎀
+   ============================================================ */
+function gameRPS(container, onResult){
+  const choices = ["rock","paper","scissors"];
+  const beats = { rock: "scissors", paper: "rock", scissors: "paper" };
+  const emoji = { rock: "🪨", paper: "📄", scissors: "✂️" };
+  let wins = 0, losses = 0, round = 1;
+
+  container.innerHTML = "";
+  container.appendChild(el(`
+    <div>
+      <div class="game-heading"><span class="eyebrow">Game 5 of 10</span>Rock Paper Scissors Hearts</div>
+      <p class="instructions">Best of 3 vs the AI.</p>
+      <div class="ttt-round-label" id="rpsStatus">Round ${round} · wins ${wins} - losses ${losses}</div>
+      <div class="btn-row" id="rpsButtons"></div>
+      <div class="feedback" id="rpsFeedback"></div>
+    </div>
+  `));
+
+  const status = container.querySelector("#rpsStatus");
+  const feedback = container.querySelector("#rpsFeedback");
+  const btnRow = container.querySelector("#rpsButtons");
+
+  choices.forEach(c=>{
+    const b = el(`<button class="btn-secondary">${emoji[c]} ${c}</button>`);
+    b.addEventListener("click", ()=> play(c));
+    btnRow.appendChild(b);
+  });
+
+  function play(user){
+    const ai = choices[Math.floor(Math.random()*3)];
+    if(user === ai){
+      feedback.textContent = `Tie! AI also chose ${ai}. Replay this round.`;
+      feedback.className = "feedback hint";
+      return;
+    }
+    if(beats[user] === ai){
+      wins++;
+      feedback.textContent = `You win! AI chose ${ai}.`;
+      feedback.className = "feedback good";
+    } else {
+      losses++;
+      feedback.textContent = `AI wins this one. AI chose ${ai}.`;
+      feedback.className = "feedback bad";
+    }
+    round++;
+    status.textContent = `Round ${round} · wins ${wins} - losses ${losses}`;
+    if(wins >= 2 || losses >= 2){
+      btnRow.querySelectorAll("button").forEach(b=> b.disabled = true);
+      setTimeout(()=> onResult(wins > losses), 1200);
+    }
+  }
+}
+
+/* ============================================================
+   🎀 GAME 6 — Emoji Riddle Garden 🎀
+   ============================================================ */
+function gameRiddles(container, onResult){
+  let index = 0, correct = 0, usedHint = false;
+
+  function render(){
+    if(index >= CONFIG.riddles.length){
+      setTimeout(()=> onResult(correct >= 2), 300);
+      return;
+    }
+    const riddle = CONFIG.riddles[index];
+    usedHint = false;
+    container.innerHTML = "";
+    container.appendChild(el(`
+      <div>
+        <div class="game-heading"><span class="eyebrow">Game 6 of 10</span>Emoji Riddle Garden</div>
+        <p class="instructions">Riddle ${index+1} of ${CONFIG.riddles.length} · guess the phrase from the emoji</p>
+        <div class="rose-display">${riddle.emoji}</div>
+        <input type="text" id="riddleInput" placeholder="your answer">
+        <button class="btn-primary" id="riddleSubmit">Answer</button>
+        <div class="feedback" id="riddleFeedback"></div>
+      </div>
+    `));
+    const input = container.querySelector("#riddleInput");
+    const feedback = container.querySelector("#riddleFeedback");
+    container.querySelector("#riddleSubmit").addEventListener("click", ()=>{
+      const guess = input.value.trim().toLowerCase();
+      if(guess === riddle.answer){
+        correct++;
+        feedback.textContent = "Correct! 🎉";
+        feedback.className = "feedback good";
+        setTimeout(()=>{ index++; render(); }, 900);
+        return;
+      }
+      if(!usedHint){
+        usedHint = true;
+        feedback.textContent = "Hint: " + riddle.hint;
+        feedback.className = "feedback hint";
+        input.value = "";
+        return;
+      }
+      feedback.innerHTML = `It was <b>${riddle.answer}</b>.`;
+      feedback.className = "feedback bad";
+      setTimeout(()=>{ index++; render(); }, 1300);
+    });
+  }
+  render();
+}
+
+/* ============================================================
+   🎀 GAME 7 — Memory Bouquet 🎀
+   ============================================================ */
+function gameMemory(container, onResult){
+  const seq = CONFIG.memorySequence;
+  let phase = "show";
+  let attemptsLeft = 2;
+  let trail = [];
+
+  function renderShow(){
+    container.innerHTML = "";
+    container.appendChild(el(`
+      <div>
+        <div class="game-heading"><span class="eyebrow">Game 7 of 10</span>Memory Bouquet</div>
+        <p class="instructions">Memorize this bouquet order...</p>
+        <div class="flower-row">${seq.map(f=>`<div class="flower-btn">${FLOWER_EMOJI[f]}</div>`).join("")}</div>
+        <div class="feedback hint" style="text-align:center;">${seq.join(" · ")}</div>
+      </div>
+    `));
+    setTimeout(renderRecall, 3000);
+  }
+
+  function renderRecall(){
+    phase = "recall";
+    trail = [];
+    const shuffledOptions = Object.keys(FLOWER_EMOJI).sort(()=>Math.random()-0.5);
+    container.innerHTML = "";
+    container.appendChild(el(`
+      <div>
+        <div class="game-heading"><span class="eyebrow">Game 7 of 10</span>Memory Bouquet</div>
+        <p class="instructions">Tap the flowers back in the same order.</p>
+        <div class="trail" id="memTrail"></div>
+        <div class="flower-row" id="memButtons">
+          ${shuffledOptions.map(f=>`<button class="flower-btn" data-f="${f}">${FLOWER_EMOJI[f]}</button>`).join("")}
+        </div>
+        <div class="btn-row">
+          <button class="btn-secondary" id="memClear">Clear</button>
+          <button class="btn-primary" id="memSubmit" style="flex:2;">Submit</button>
+        </div>
+        <div class="feedback" id="memFeedback"></div>
+      </div>
+    `));
+    const trailEl = container.querySelector("#memTrail");
+    const feedback = container.querySelector("#memFeedback");
+
+    container.querySelectorAll(".flower-btn[data-f]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        trail.push(btn.dataset.f);
+        trailEl.textContent = trail.map(f=>FLOWER_EMOJI[f]).join(" ");
+      });
+    });
+    container.querySelector("#memClear").addEventListener("click", ()=>{
+      trail = [];
+      trailEl.textContent = "";
+    });
+    container.querySelector("#memSubmit").addEventListener("click", ()=>{
+      const isCorrect = JSON.stringify(trail) === JSON.stringify(seq);
+      if(isCorrect){
+        feedback.textContent = "Perfect bouquet! 🎉";
+        feedback.className = "feedback good";
+        setTimeout(()=> onResult(true), 900);
+        return;
+      }
+      attemptsLeft--;
+      if(attemptsLeft <= 0){
+        feedback.innerHTML = `Not quite! The order was ${seq.map(f=>FLOWER_EMOJI[f]).join(" ")}`;
+        feedback.className = "feedback bad";
+        setTimeout(()=> onResult(false), 1600);
+        return;
+      }
+      feedback.textContent = "Not quite — one more try!";
+      feedback.className = "feedback bad";
+      trail = [];
+      trailEl.textContent = "";
+    });
+  }
+
+  renderShow();
+}
+
+/* ============================================================
+   🎀 GAME 8 — Two Truths and a Lie 🎀
+   ============================================================ */
+function gameTwoTruths(container, onResult){
+  let attemptsLeft = 2;
+
+  container.innerHTML = "";
+  container.appendChild(el(`
+    <div>
+      <div class="game-heading"><span class="eyebrow">Game 8 of 10</span>Two Truths and a Lie</div>
+      <p class="instructions">Tap the one you think is the LIE.</p>
+      <div id="ttlOptions"></div>
+      <div class="feedback" id="ttlFeedback"></div>
+    </div>
+  `));
+
+  const optionsEl = container.querySelector("#ttlOptions");
+  const feedback = container.querySelector("#ttlFeedback");
+
+  CONFIG.twoTruths.forEach((statement, i)=>{
+    const btn = el(`<button class="option-btn">${i+1}. ${statement}</button>`);
+    btn.addEventListener("click", ()=>{
+      const guess = i + 1;
+      if(guess === CONFIG.lieIndex){
+        btn.classList.add("correct");
+        feedback.textContent = "Yep, that's the lie! 🎉";
+        feedback.className = "feedback good";
+        optionsEl.querySelectorAll("button").forEach(b=> b.disabled = true);
+        setTimeout(()=> onResult(true), 900);
+        return;
+      }
+      btn.classList.add("wrong");
+      btn.disabled = true;
+      attemptsLeft--;
+      if(attemptsLeft <= 0){
+        feedback.textContent = "Out of guesses this time!";
+        feedback.className = "feedback bad";
+        optionsEl.querySelectorAll("button").forEach(b=> b.disabled = true);
+        setTimeout(()=> onResult(false), 1400);
+        return;
+      }
+      feedback.textContent = "Nope, that one's true — try again!";
+      feedback.className = "feedback bad";
+    });
+    optionsEl.appendChild(btn);
+  });
+}
+
+/* ============================================================
+   🎀 GAME 9 — Wilting Rose Hangman 🎀
+   ============================================================ */
+function gameHangman(container, onResult){
+  const word = CONFIG.hangmanWord.toUpperCase();
+  const guessed = new Set();
+  let wrong = 0;
+  let locked = false;
+  const maxWrong = ROSE_STAGES.length - 1;
+
+  function currentDisplay(){
+    return word.split("").map(c => guessed.has(c) ? c : "_").join(" ");
+  }
+
+  function render(){
+    container.innerHTML = "";
+    const stage = ROSE_STAGES[Math.min(wrong, maxWrong)];
+    container.appendChild(el(`
+      <div>
+        <div class="game-heading"><span class="eyebrow">Game 9 of 10</span>Wilting Rose Hangman</div>
+        <p class="instructions">Guess the word before the rose wilts completely.</p>
+        <div class="rose-display">${stage.emoji}</div>
+        <div class="rose-stage-label">${stage.label}</div>
+        <div class="word-display">${currentDisplay()}</div>
+        <div class="keyboard" id="keyboard"></div>
+        <div class="feedback" id="hangFeedback"></div>
+      </div>
+    `));
+    const keyboard = container.querySelector("#keyboard");
+    const feedback = container.querySelector("#hangFeedback");
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter=>{
+      const key = el(`<button class="key">${letter}</button>`);
+      if(guessed.has(letter) || locked){
+        key.disabled = true;
+        if(guessed.has(letter)) key.classList.add(word.includes(letter) ? "used-good" : "used-bad");
+      }
+      key.addEventListener("click", ()=>{
+        if(locked || guessed.has(letter)) return;
+        guessed.add(letter);
+        if(!word.includes(letter)){
+          wrong++;
+          feedback.textContent = "Not in the word!";
+          feedback.className = "feedback bad";
+        } else {
+          feedback.textContent = "Yes!";
+          feedback.className = "feedback good";
+        }
+        if(!currentDisplay().includes("_")){
+          locked = true;
+          render();
+          setTimeout(()=> onResult(true), 900);
+          return;
+        }
+        if(wrong >= maxWrong){
+          locked = true;
+          render();
+          container.querySelector("#hangFeedback").innerHTML = `The word was <b>${word}</b>.`;
+          container.querySelector("#hangFeedback").className = "feedback bad";
+          setTimeout(()=> onResult(false), 1500);
+          return;
+        }
+        render();
+      });
+      keyboard.appendChild(key);
+    });
+  }
+
+  render();
+}
+
+/* ============================================================
+   🎀 GAME 10 — How Well Do You Know Me? 🎀
+   ============================================================ */
+function gameTrivia(container, onResult){
+  let index = 0, correct = 0;
+
+  function render(){
+    if(index >= CONFIG.trivia.length){
+      setTimeout(()=> onResult(correct >= 2), 300);
+      return;
+    }
+    const q = CONFIG.trivia[index];
+    container.innerHTML = "";
+    container.appendChild(el(`
+      <div>
+        <div class="game-heading"><span class="eyebrow">Game 10 of 10</span>How Well Do You Know Me?</div>
+        <p class="instructions">Question ${index+1} of ${CONFIG.trivia.length} — the final heart!</p>
+        <p style="text-align:center; font-weight:600;">${q.question}</p>
+        <div id="triviaOptions"></div>
+        <div class="feedback" id="triviaFeedback"></div>
+      </div>
+    `));
+    const optionsEl = container.querySelector("#triviaOptions");
+    const feedback = container.querySelector("#triviaFeedback");
+    Object.entries(q.options).forEach(([key,label])=>{
+      const btn = el(`<button class="option-btn">${key}) ${label}</button>`);
+      btn.addEventListener("click", ()=>{
+        optionsEl.querySelectorAll("button").forEach(b=> b.disabled = true);
+        if(key === q.answer){
+          btn.classList.add("correct");
+          correct++;
+          feedback.textContent = "Correct!";
+          feedback.className = "feedback good";
+        } else {
+          btn.classList.add("wrong");
+          feedback.innerHTML = `Nope, it was <b>${q.answer}</b>.`;
+          feedback.className = "feedback bad";
+        }
+        setTimeout(()=>{ index++; render(); }, 1100);
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+  render();
+}
+
+/* ============================================================
+   🎀 controller 🎀
+   ============================================================ */
+const GAMES = [
+  gameTicTacToe, gameGuessNumber, gameWordle, gameScramble, gameRPS,
+  gameRiddles, gameMemory, gameTwoTruths, gameHangman, gameTrivia
+];
+
+const bracelet = document.getElementById("bracelet");
+const braceletLabel = document.getElementById("braceletLabel");
+const gameArea = document.getElementById("gameArea");
+
+for(let i=0;i<GAMES.length;i++){
+  bracelet.appendChild(el(`<div class="charm" data-i="${i}"></div>`));
+}
+
+function updateBraceletLabel(n){
+  braceletLabel.textContent = `${n} of 10 hearts earned`;
+}
+
+function markCharmFilled(i){
+  bracelet.querySelector(`.charm[data-i="${i}"]`).classList.add("filled");
+  updateBraceletLabel(i+1);
+}
+
+function resetBracelet(){
+  bracelet.querySelectorAll(".charm").forEach(c=>{
+    c.classList.add("unraveling");
+    setTimeout(()=> c.classList.remove("filled","unraveling"), 500);
+  });
+  updateBraceletLabel(0);
+}
+
+function startGame(i){
+  GAMES[i](gameArea, (result)=>{
+    if(result){ onWin(i); } else { onLose(); }
+  });
+}
+
+function onWin(i){
+  markCharmFilled(i);
+  if(i + 1 >= GAMES.length){
+    setTimeout(showFinale, 700);
+  } else {
+    setTimeout(()=> startGame(i+1), 700);
+  }
+}
+
+function onLose(){
+  gameArea.innerHTML = "";
+  gameArea.appendChild(el(`
+    <div class="overlay-text">
+      <div class="overlay-emoji">(╥﹏╥)</div>
+      <h2 style="color:var(--pink-deep);">Awww, so close!</h2>
+      <p class="final-msg">That wasn't quite it — back to game one we go. Cuteness takes practice. 🩷</p>
+    </div>
+  `));
+  setTimeout(()=>{
+    resetBracelet();
+    setTimeout(()=> startGame(0), 500);
+  }, 1600);
+}
+
+function showFinale(){
+  gameArea.innerHTML = "";
+  gameArea.appendChild(el(`
+    <div class="overlay-text">
+      <div class="overlay-emoji">(◍•ᴗ•◍)❤</div>
+      <h2 style="color:var(--pink-deep);">You did it!</h2>
+      <p class="final-msg">You won all 10 hearts. Here's your prize:</p>
+      <div class="phone-number">📱 ${CONFIG.phoneNumber} 📱</div>
+      <p class="final-msg">${CONFIG.finalMessage}</p>
+    </div>
+  `));
+}
+
+startGame(0);
+</script>
+</body>
+</html>
