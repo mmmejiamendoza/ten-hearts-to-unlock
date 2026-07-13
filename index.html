@@ -320,7 +320,7 @@
     <div id="gameArea"></div>
   </div>
 
-  <footer>lose a round and the bracelet unravels back to game one 🩷</footer>
+  <footer>lose a round and only that game replays — your earned hearts stay 🩷</footer>
 </div>
 
 <script>
@@ -1044,17 +1044,9 @@ function markCharmFilled(i){
   updateBraceletLabel(i+1);
 }
 
-function resetBracelet(){
-  bracelet.querySelectorAll(".charm").forEach(c=>{
-    c.classList.add("unraveling");
-    setTimeout(()=> c.classList.remove("filled","unraveling"), 500);
-  });
-  updateBraceletLabel(0);
-}
-
 function startGame(i){
   GAMES[i](gameArea, (result)=>{
-    if(result){ onWin(i); } else { onLose(); }
+    if(result){ onWin(i); } else { onLose(i); }
   });
 }
 
@@ -1067,18 +1059,17 @@ function onWin(i){
   }
 }
 
-function onLose(){
+function onLose(i){
   gameArea.innerHTML = "";
   gameArea.appendChild(el(`
     <div class="overlay-text">
       <div class="overlay-emoji">(╥﹏╥)</div>
       <h2 style="color:var(--pink-deep);">Awww, so close!</h2>
-      <p class="final-msg">That wasn't quite it — back to game one we go. Cuteness takes practice. 🩷</p>
+      <p class="final-msg">That wasn't quite it — let's try this one again. Your earned hearts are safe! 🩷</p>
     </div>
   `));
   setTimeout(()=>{
-    resetBracelet();
-    setTimeout(()=> startGame(0), 500);
+    startGame(i);
   }, 1600);
 }
 
