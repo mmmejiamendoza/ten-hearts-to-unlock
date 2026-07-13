@@ -416,7 +416,6 @@ function aiMove(b){
 }
 
 function gameTicTacToe(container, onResult){
-  let round = 1, wins = 0;
 
   function playRound(){
     let board = Array(9).fill("");
@@ -426,8 +425,7 @@ function gameTicTacToe(container, onResult){
     container.appendChild(el(`
       <div>
         <div class="game-heading"><span class="eyebrow">Game 1 of 10</span>Tic Tac Toe Showdown</div>
-        <p class="instructions">Best 2 of 3 rounds vs the AI. You're X 🩷, AI is O.</p>
-        <div class="ttt-round-label">Round ${round} of 3 &nbsp;·&nbsp; wins so far: ${wins}</div>
+        <p class="instructions">Win one round to advance! You're X 🩷, AI is O.</p>
         <div class="ttt-board" id="tttBoard"></div>
         <div class="feedback" id="tttFeedback"></div>
       </div>
@@ -463,24 +461,18 @@ function gameTicTacToe(container, onResult){
       locked = true;
       render();
       if(result === "X"){
-        wins++;
-        feedback.textContent = `You won round ${round}! 🎉`;
+        feedback.textContent = "You won! 🎉";
         feedback.className = "feedback good";
+        setTimeout(()=> onResult(true), 1300);
       } else if(result === "O"){
-        feedback.textContent = `AI won round ${round}. 😳`;
+        feedback.textContent = "AI won this one. 😳";
         feedback.className = "feedback bad";
+        setTimeout(()=> onResult(false), 1300);
       } else {
-        feedback.textContent = `Round ${round} was a draw!`;
+        feedback.textContent = "Draw! Let's go again.";
         feedback.className = "feedback hint";
+        setTimeout(()=> playRound(), 1300);
       }
-      setTimeout(()=>{
-        if(round >= 3){
-          onResult(wins >= 2);
-        } else {
-          round++;
-          playRound();
-        }
-      }, 1300);
     }
 
     render();
