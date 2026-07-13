@@ -733,8 +733,8 @@ function gameRiddles(container, onResult){
     container.innerHTML = "";
     container.appendChild(el(`
       <div>
-        <div class="game-heading"><span class="eyebrow">Game 6 of 10</span>Emoji Riddle Garden</div>
-        <p class="instructions">Riddle ${index+1} of ${CONFIG.riddles.length} · guess the phrase from the emoji</p>
+        <div class="game-heading"><span class="eyebrow">Game 6 of 10</span>Guess The Word By Emojis</div>
+        <p class="instructions">Riddle ${index+1} of ${CONFIG.riddles.length} · guess the word based on these emojis</p>
         <div class="rose-display">${riddle.emoji}</div>
         <input type="text" id="riddleInput" placeholder="your answer">
         <button class="btn-primary" id="riddleSubmit">Answer</button>
